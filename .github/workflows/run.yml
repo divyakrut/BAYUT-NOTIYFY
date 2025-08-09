@@ -1,0 +1,32 @@
+name: Bayut Notifier
+
+on:
+  schedule:
+    # Runs every day at 14:00 UTC (which is 18:00 Dubai time)
+    - cron: '0 14 * * *'
+  workflow_dispatch:  # allows manual run
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out repo
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        pip install requests beautifulsoup4
+
+    - name: Run script
+      env:
+        INSTANCE_ID: ${{ secrets.INSTANCE_ID }}
+        TOKEN: ${{ secrets.TOKEN }}
+        PHONE_NUMBER: ${{ secrets.PHONE_NUMBER }}
+      run: |
+        python main.py
