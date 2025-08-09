@@ -12,21 +12,19 @@ jobs:
 
     steps:
     - name: Check out repo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
-        python-version: '3.10'
+        python-version: '3.11'
 
     - name: Install dependencies
-      run: |
-        pip install requests beautifulsoup4
+      run: pip install requests
 
     - name: Run script
       env:
-        INSTANCE_ID: ${{ secrets.INSTANCE_ID }}
-        TOKEN: ${{ secrets.TOKEN }}
-        PHONE_NUMBER: ${{ secrets.PHONE_NUMBER }}
-      run: |
-        python main.py
+          ULTRAMSG_INSTANCE_ID: ${{ secrets.ULTRAMSG_INSTANCE_ID }}
+          ULTRAMSG_TOKEN: ${{ secrets.ULTRAMSG_TOKEN }}
+          WHATSAPP_TO: ${{ secrets.WHATSAPP_TO }}
+        run: python main.py
